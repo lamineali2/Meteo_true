@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
+import 'rxjs/add/operator/map';
 
 /*
   Generated class for the WeatherProvider provider.
@@ -9,9 +10,15 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class WeatherProvider {
-
-  constructor(public http: HttpClient) {
+apiKey='78824176efdef0e8';
+  url;
+  constructor(public http: Http) {
     console.log('Hello WeatherProvider Provider');
+    this.url='http://api.wunderground.com/api/'+this.apiKey+'/conditions/q';
   }
-
+getWeather(city,state){
+  //noinspection TypeScriptUnresolvedFunction
+  return this.http.get(this.url+'/'+state+'/'+city+'.json')
+      .map(res => res.json());
+}
 }
